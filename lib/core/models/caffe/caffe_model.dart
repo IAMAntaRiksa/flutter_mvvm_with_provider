@@ -37,8 +37,9 @@ base class CaffeModel extends Serializable {
       description: json['description'] ?? "",
       city: json['city'] ?? "",
       address: json['address'] ?? "",
-      rating:
-          json['rating'] != null ? double.tryParse(json['rating']) ?? 0.0 : 0.0,
+      rating: json['rating'] != null
+          ? double.parse(json['rating'].toString())
+          : 0.0,
       image: json['pictureId'] != null
           ? CaffeImageModel.fromJson(json['pictureId'])
           : null,

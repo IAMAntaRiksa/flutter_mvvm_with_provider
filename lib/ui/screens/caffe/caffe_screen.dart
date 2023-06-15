@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_caffe_ku/core/services/caffe/caffe_dummy.dart';
 import 'package:flutter_caffe_ku/core/utils/navigation/navigation_util.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/caffe/caffe_provider.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
 import 'package:flutter_caffe_ku/ui/route/route_list.dart';
 import 'package:flutter_caffe_ku/ui/widgets/caffe/cafe_list.dart';
 import 'package:flutter_caffe_ku/ui/widgets/chip/chip_item.dart';
 import 'package:flutter_caffe_ku/ui/widgets/search/search_item.dart';
+import 'package:provider/provider.dart';
 
 class CaffeScreen extends StatelessWidget {
   const CaffeScreen({super.key});
@@ -24,7 +25,10 @@ class CaffeScreen extends StatelessWidget {
           child: CustomeAppBar(),
         ),
       ),
-      body: const CaffeBody(),
+      body: ChangeNotifierProvider(
+        create: (value) => CaffeProvider(),
+        child: const CaffeBody(),
+      ),
     );
   }
 }
@@ -102,34 +106,43 @@ class _HeaderWidget extends StatelessWidget {
 }
 
 class _CaffeListWidget extends StatelessWidget {
-  const _CaffeListWidget({super.key});
+  const _CaffeListWidget();
 
   @override
   Widget build(BuildContext context) {
-    return CaffeListWidget(
-      caffes: CaffeDummyService().getFruits(),
+    return Consumer<CaffeProvider>(
+      builder: (context, caffeProv, _) {
+        if (caffeProv.caffes == null && !caffeProv.onSearch) {
+          caffeProv.getCaffes();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (caffeProv.caffes == null && caffeProv.onSearch) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (caffeProv.caffes!.isEmpty) {
+          return const Column(
+            children: [Text("Tidak ad data")],
+          );
+        }
+
+        return CaffeListWidget(
+          caffes: caffeProv.caffes!,
+        );
+      },
     );
   }
 }
 
 class _CitiesListWidget extends StatelessWidget {
-  const _CitiesListWidget({super.key});
+  const _CitiesListWidget();
 
   @override
   Widget build(BuildContext context) {
-    List<String> cities = [
-      'Medan',
-      'Palembang',
-      'Lampung',
-      'Riau',
-      'Padang',
-      'Bandung',
-      'Jakarta',
-      'Surabaya',
-      'Gombong',
-      'Semarang',
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,24 +156,50 @@ class _CitiesListWidget extends StatelessWidget {
             ),
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: cities
-                .asMap()
-                .map(
-                  (index, value) => MapEntry(
-                    index,
-                    ChipItem(
-                      name: value,
-                      onClick: () => {},
-                      isFirst: index == 0,
-                    ),
-                  ),
-                )
-                .values
-                .toList(),
-          ),
+        Consumer<CaffeProvider>(
+          builder: (context, caffeProv, _) {
+            if (caffeProv.cities == null && !caffeProv.onSearch) {
+              caffeProv.getCities();
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (caffeProv.cities == null && caffeProv.onSearch) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (caffeProv.cities!.isEmpty) {
+              return const Column(
+                children: [Text("Tidak ad data")],
+              );
+            }
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: caffeProv.cities!
+                    .asMap()
+                    .map(
+                      (index, value) => MapEntry(
+                        index,
+                        ChipItem(
+                          name: value,
+                          onClick: () => {
+                            navigate.pushTo(
+                              routeCaffeByCities,
+                              data: value,
+                            )
+                          },
+                          isFirst: index == 0,
+                        ),
+                      ),
+                    )
+                    .values
+                    .toList(),
+              ),
+            );
+          },
         )
       ],
     );
@@ -192,7 +231,7 @@ class CustomeAppBar extends AppBar {
                 ),
               ),
               Text(
-                "IMAM AKBAR MEGA ANTARIKSA",
+                "_IAMAntaRiksa",
                 style: styleSubtitle.copyWith(
                   fontSize: setFontSize(50),
                   color: blackColor,

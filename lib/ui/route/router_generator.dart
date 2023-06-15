@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_caffe_ku/core/models/caffe/caffe_model.dart';
 import 'package:flutter_caffe_ku/ui/route/route_list.dart';
+import 'package:flutter_caffe_ku/ui/screens/caffe/caffe_cities_screen.dart';
+import 'package:flutter_caffe_ku/ui/screens/caffe/caffe_detail_screen.dart';
 import 'package:flutter_caffe_ku/ui/screens/caffe/caffe_screen.dart';
 import 'package:flutter_caffe_ku/ui/screens/caffe/caffe_search_screen.dart';
 import 'package:flutter_caffe_ku/ui/screens/dashboard/dashboard_screen.dart';
@@ -7,6 +10,7 @@ import 'package:flutter_caffe_ku/ui/screens/dashboard/dashboard_screen.dart';
 class RouterGenerator {
   /// Initializing route
   static Route<dynamic>? generate(RouteSettings settings) {
+    final args = settings.arguments;
     switch (settings.name) {
       /// Splash group
       // case routeSplash:
@@ -41,18 +45,30 @@ class RouterGenerator {
           ),
         );
 
-      // case routeCaffeDetail:
-      //   if (args is String) {
-      //     return MaterialPageRoute(
-      //       builder: (_) => HomeDetailScreen(
-      //         id: args,
-      //       ),
-      //       settings: const RouteSettings(
-      //         arguments: routeCaffeDetail,
-      //       ),
-      //     );
-      //   }
-      //   break;
+      case routeCaffeByCities:
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => CaffeCitiesScreen(
+              city: args,
+            ),
+            settings: const RouteSettings(
+              arguments: routeCaffeByCities,
+            ),
+          );
+        }
+        break;
+      case routeCaffeDetail:
+        if (args is CaffeModel) {
+          return MaterialPageRoute(
+            builder: (_) => CaffeDetailScreen(
+              id: args,
+            ),
+            settings: const RouteSettings(
+              arguments: routeCaffeDetail,
+            ),
+          );
+        }
+        break;
     }
     return null;
   }

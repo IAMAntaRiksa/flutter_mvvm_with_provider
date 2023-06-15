@@ -1,13 +1,23 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_caffe_ku/core/data/api.dart';
 import 'package:flutter_caffe_ku/core/data/base_api_impl.dart';
 import 'package:flutter_caffe_ku/core/models/api/api_reponse.dart';
+import 'package:flutter_caffe_ku/injector.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class BaseAPI implements BaseAPIImpl {
   Dio? _dio;
 
+  final endpoint = locator<Api>();
+
   /// Initialize constructors
   BaseAPI({Dio? dio}) {
     _dio = dio ?? Dio();
+    _dio?.interceptors.add(PrettyDioLogger(
+      requestBody: true,
+      requestHeader: true,
+      error: true,
+    ));
   }
 
   @override
@@ -29,21 +39,18 @@ class BaseAPI implements BaseAPIImpl {
   @override
   Future<APIResponse> delete(String url,
       {Map<String, dynamic>? param, bool? useToken}) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
   Future<APIResponse> post(String url,
       {Map<String, dynamic>? param, data, bool? useToken}) {
-    // TODO: implement post
     throw UnimplementedError();
   }
 
   @override
   Future<APIResponse> put(String url,
       {Map<String, dynamic>? param, data, bool? useToken}) {
-    // TODO: implement put
     throw UnimplementedError();
   }
 

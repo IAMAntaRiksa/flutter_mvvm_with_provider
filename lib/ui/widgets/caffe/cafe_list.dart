@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/models/caffe/caffe_model.dart';
+import 'package:flutter_caffe_ku/core/utils/navigation/navigation_util.dart';
+import 'package:flutter_caffe_ku/ui/route/route_list.dart';
 import 'package:flutter_caffe_ku/ui/widgets/caffe/caffe_item.dart';
 
 class CaffeListWidget extends StatelessWidget {
@@ -26,7 +28,17 @@ class CaffeListWidget extends StatelessWidget {
         return CaffeItem(
           caffe: caffe,
           useHero: useHero,
-          onClick: () => {},
+          onClick: () => {
+            useReplacement
+                ? navigate.pushToReplacement(
+                    routeCaffeDetail,
+                    data: caffe,
+                  )
+                : navigate.pushTo(
+                    routeCaffeDetail,
+                    data: caffe,
+                  ),
+          },
         );
       },
     );

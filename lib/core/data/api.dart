@@ -1,15 +1,14 @@
 class Api {
   /// Base API Endpoint
-  static const _baseServer = "";
 
   /// * -------------------
   ///  * Caffe Endpoint
   ///  * ------------------
   ///  * In this field will exists
-  ///  * some route about restaurants
+  ///  * some route about Caffes
   /// */
-  String getRestaurants = "$_baseServer/list";
-  // String getRestaurant = "$_baseServer/detail/:id";
-  // String searchRestaurant = "$_baseServer/search";
+  String getCaffes = "$_baseServer/list";
+  String getCaffe = "$_baseServer/detail/:id";
+  String searchCaffe = "$_baseServer/search";
   // String createReview = "$_baseServer/review";
 }

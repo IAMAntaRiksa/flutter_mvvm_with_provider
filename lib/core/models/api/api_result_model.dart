@@ -18,7 +18,10 @@ class ApiResult<T extends Serializable> {
           ? json![field] != null
               ? create(json[field] ?? {})
               : create({})
-          : create(json?['data'] ?? {}),
+          : create(json?[field] ?? {}),
+      // data: json?[field] != null && json?[field] is Map
+      //     ? create(json?[field] ?? {})
+      //     : create({}),
     );
   }
   Map<String, dynamic> toJson() => {
@@ -37,14 +40,18 @@ class ApiResultList<T extends Serializable> {
 
   factory ApiResultList.fromJson(
       Map<String, dynamic>? json, Function(List<dynamic>) build,
-      [String? field]) {
+      {String? field}) {
     return ApiResultList<T>(
       message: json?['message'] ?? "",
       error: json?['error'] ?? false,
+
+      // data: json?[field] != null && json?[field] is List
+      //     ? build(json?[field])
+      //     : build([]),
       data: field != null
           ? build(json?[field])
-          : json?['data'] != null
-              ? build(json?['data'])
+          : json?[field] != null
+              ? build(json?[field])
               : build([]),
     );
   }
