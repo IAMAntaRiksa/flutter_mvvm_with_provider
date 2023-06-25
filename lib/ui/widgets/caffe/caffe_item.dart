@@ -52,6 +52,7 @@ class CaffeItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: styleTitle.copyWith(
                             fontSize: setFontSize(40),
+                            color: isColor(context),
                           ),
                         ),
                         SizedBox(
@@ -89,7 +90,7 @@ class CaffeItem extends StatelessWidget {
                               " (${caffe.rating.toString()})",
                               style: styleSubtitle.copyWith(
                                 fontSize: setFontSize(30),
-                                color: grayDarkColor,
+                                color: isColor(context),
                               ),
                             )
                           ],
@@ -115,7 +116,7 @@ class CaffeItem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: styleSubtitle.copyWith(
                                   fontSize: setFontSize(35),
-                                  color: grayDarkColor,
+                                  color: isColor(context),
                                 ),
                               ),
                             ),

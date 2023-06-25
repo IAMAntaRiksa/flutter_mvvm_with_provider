@@ -38,10 +38,10 @@ class SearchItem extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.search,
               size: 20,
-              color: Colors.black54,
+              color: isColor(context),
             ),
             const SizedBox(width: 5),
             Expanded(

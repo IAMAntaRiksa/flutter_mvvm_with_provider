@@ -96,6 +96,7 @@ class RestaurantSearchBody extends StatelessWidget {
                 index == 0
                     ? _searchResultWidget(
                         caffeProv.searchCaffes!.length,
+                        context,
                       )
                     : const SizedBox(),
                 CaffeItem(
@@ -110,7 +111,7 @@ class RestaurantSearchBody extends StatelessWidget {
     );
   }
 
-  Widget _searchResultWidget(int total) {
+  Widget _searchResultWidget(int total, BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: setWidth(40),
@@ -127,6 +128,7 @@ class RestaurantSearchBody extends StatelessWidget {
             "$total Restaurants found",
             style: styleTitle.copyWith(
               fontSize: setFontSize(35),
+              color: isColor(context),
             ),
           )
         ],

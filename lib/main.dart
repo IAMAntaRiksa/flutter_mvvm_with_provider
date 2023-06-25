@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/utils/navigation/navigation_util.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/theme/theme_provider.dart';
+import 'package:flutter_caffe_ku/global_providers.dart';
 import 'package:flutter_caffe_ku/injector.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
 import 'package:flutter_caffe_ku/ui/constant/themes.dart';
-import 'package:flutter_caffe_ku/ui/global_providers.dart';
 import 'package:flutter_caffe_ku/ui/route/route_list.dart';
 import 'package:flutter_caffe_ku/ui/route/router_generator.dart';
 import 'package:flutter_caffe_ku/ui/screens/dashboard/dashboard_screen.dart';
@@ -40,22 +41,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: MaterialApp(
-        title: "Caffe Ku",
-        debugShowCheckedModeBanner: false,
-        navigatorKey: locator<NavigationUtils>().navigatorKey,
-        theme: lightTheme,
-        themeMode: ThemeMode.light,
-        initialRoute: routeDashboard,
-        onGenerateRoute: RouterGenerator.generate,
-        builder: (ctx, child) {
-          setupScreenUtil(ctx);
-          return MediaQuery(
-            data: MediaQuery.of(ctx).copyWith(textScaleFactor: 1.0),
-            child: ScrollConfiguration(
-              behavior: MyBehavior(),
-              child: child!,
-            ),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProv, _) {
+          themeProv.getThemeIsDark();
+          var isDarkTheme = themeProv.theme ?? false;
+          return MaterialApp(
+            title: "Caffe Ku",
+            debugShowCheckedModeBanner: false,
+            navigatorKey: locator<NavigationUtils>().navigatorKey,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+            initialRoute: routeDashboard,
+            onGenerateRoute: RouterGenerator.generate,
+            builder: (ctx, child) {
+              setupScreenUtil(ctx);
+              return MediaQuery(
+                data: MediaQuery.of(ctx).copyWith(textScaleFactor: 1.0),
+                child: ScrollConfiguration(
+                  behavior: MyBehavior(),
+                  child: child!,
+                ),
+              );
+            },
           );
         },
       ),

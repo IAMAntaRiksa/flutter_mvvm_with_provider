@@ -1,9 +1,13 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/favorite/favorite_provider.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
+import 'package:flutter_caffe_ku/ui/constant/themes.dart';
 import 'package:flutter_caffe_ku/ui/screens/caffe/caffe_screen.dart';
 import 'package:flutter_caffe_ku/ui/screens/favorite/favorite_screen.dart';
 import 'package:flutter_caffe_ku/ui/screens/setting/setting_screen.dart';
+import 'package:flutter_caffe_ku/ui/widgets/idle/idle_item.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -24,7 +28,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _bottomNavBar(),
-      body: menuList[_currentIndex],
+      body: Consumer<FavoriteProvider>(
+        builder: (context, favoriteProv, _) {
+          if (favoriteProv.favorites == null && !favoriteProv.onSearch) {
+            favoriteProv.getFavorites();
+            return const IdleLoadingCenter();
+          }
+          return menuList[_currentIndex];
+        },
+      ),
     );
   }
 
@@ -34,7 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       selectedColor: primaryColor,
       unSelectedColor: grayColor.withOpacity(0.4),
       strokeColor: primaryColor,
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkTheme(context) ? darkColor : Colors.white,
       borderRadius: const Radius.circular(15),
       currentIndex: _currentIndex,
       onTap: (index) {
@@ -51,7 +63,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           showBadge: false,
           title: Text(
             "Caffe",
-            style: styleSubtitle,
+            style: styleSubtitle.copyWith(color: isColor(context)),
           ),
         ),
         CustomNavigationBarItem(
@@ -60,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           showBadge: false,
           title: Text(
             "Favorite",
-            style: styleSubtitle,
+            style: styleSubtitle.copyWith(color: isColor(context)),
           ),
         ),
         CustomNavigationBarItem(
@@ -69,7 +81,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           showBadge: false,
           title: Text(
             "Setting",
-            style: styleSubtitle,
+            style: styleSubtitle.copyWith(
+              color: isColor(context),
+            ),
           ),
         ),
       ],

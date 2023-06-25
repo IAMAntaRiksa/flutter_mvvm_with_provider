@@ -39,6 +39,7 @@ class ChipItem extends StatelessWidget {
             name,
             style: styleTitle.copyWith(
               fontSize: setFontSize(35),
+              color: isColor(context),
             ),
           ),
         ),

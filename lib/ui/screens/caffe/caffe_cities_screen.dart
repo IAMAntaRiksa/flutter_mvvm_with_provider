@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/utils/navigation/navigation_util.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/caffe/caffe_provider.dart';
+import 'package:flutter_caffe_ku/gen/assets.gen.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
 import 'package:flutter_caffe_ku/ui/widgets/caffe/cafe_list.dart';
+import 'package:flutter_caffe_ku/ui/widgets/idle/idle_item.dart';
 import 'package:provider/provider.dart';
 
 class CaffeCitiesScreen extends StatelessWidget {
@@ -48,7 +50,7 @@ class CaffeCitiesBody extends StatelessWidget {
     return Consumer<CaffeProvider>(
       builder: (context, caffeProv, _) {
         if (caffeProv.caffesByCity == null && !caffeProv.onSearch) {
-          caffeProv.getRestaurantsByCity(city);
+          caffeProv.getCaffesByCity(city);
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -60,8 +62,9 @@ class CaffeCitiesBody extends StatelessWidget {
         }
 
         if (caffeProv.caffesByCity!.isEmpty) {
-          return const Column(
-            children: [Text("Tidak ad data")],
+          return IdleNoItemCenter(
+            title: "Restaurant not found",
+            iconPathSVG: Assets.images.illustrationNotfound.path,
           );
         }
         return CaffeListWidget(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/models/caffe/caffe_model.dart';
+import 'package:flutter_caffe_ku/core/models/review/create_review_model.dart';
 import 'package:flutter_caffe_ku/core/services/caffe/caffe_service.dart';
 import 'package:flutter_caffe_ku/injector.dart';
+import 'package:flutter_caffe_ku/ui/widgets/dialog/snackbar_item.dart';
 import 'package:provider/provider.dart';
 
 class CaffeProvider extends ChangeNotifier {
@@ -29,6 +31,10 @@ class CaffeProvider extends ChangeNotifier {
   List<CaffeModel>? _caffesByCity;
   List<CaffeModel>? get caffesByCity => _caffesByCity;
 
+  /// List of favorites restaurant
+  List<CaffeModel>? _caffeFavorites;
+  List<CaffeModel>? get caffeFavorites => _caffeFavorites;
+
   /// Property to check mounted before notify
   bool isDisposed = false;
 
@@ -46,6 +52,30 @@ class CaffeProvider extends ChangeNotifier {
   /// Instance provider
   static CaffeProvider instance(BuildContext context) {
     return Provider.of<CaffeProvider>(context, listen: false);
+  }
+
+  void getCaffeFavorites(List<String> favoritesId) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    setOnSearch(true);
+    try {
+      if (_caffes == null) {
+        await getCaffes();
+      }
+      _caffeFavorites = [];
+      for (var item in _caffes!) {
+        if (favoritesId.contains(item.id)) {
+          _caffeFavorites!.add(item);
+        }
+      }
+    } catch (e) {
+      _caffeFavorites = [];
+    }
+    setOnSearch(false);
+  }
+
+  void removeFavorite(String id) {
+    _caffeFavorites?.removeWhere((item) => item.id == id);
+    notifyListeners();
   }
 
   /// Find List of Caffe from APi
@@ -85,7 +115,7 @@ class CaffeProvider extends ChangeNotifier {
   }
 
   /// Find List of Caffes BY Cities
-  void getRestaurantsByCity(String city) async {
+  void getCaffesByCity(String city) async {
     await Future.delayed(const Duration(milliseconds: 100));
     setOnSearch(true);
     if (_caffes == null) {
@@ -145,6 +175,38 @@ class CaffeProvider extends ChangeNotifier {
       }
       setOnSearch(false);
     }
+  }
+
+  Future<void> createReview(CreateReviewModel data) async {
+    try {
+      final result = await caffeServices.createReview(data);
+
+      if (result.error == false) {
+        _caffe?.reviews = result.data;
+        showSnackbar(
+          title: "Successfully create new review",
+          color: Colors.green,
+        );
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint("Error: ${e.toString()}");
+      showSnackbar(
+        title: "Failed creating review",
+        color: Colors.red,
+        isError: true,
+      );
+    }
+  }
+
+  void clearCities() {
+    _cities = null;
+    notifyListeners();
+  }
+
+  void clearCaffes() {
+    _caffes = null;
+    notifyListeners();
   }
 
   void setOnSearch(bool value) {

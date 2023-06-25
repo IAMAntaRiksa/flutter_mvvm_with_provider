@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_caffe_ku/ui/constant/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// --------------
@@ -15,6 +16,11 @@ Color get grayDarkColor => const Color(0xff6F7789);
 Color get redColor => const Color(0xffFB7181);
 Color get blackGrayColor => const Color(0xff2D2E30);
 Color get blackBGColor => const Color(0xff15161A);
+Color darkColor = const Color(0xFF212121);
+
+Color isColor(BuildContext context) {
+  return isDarkTheme(context) ? Colors.white : blackColor;
+}
 
 /// --------------
 /// Asset Location

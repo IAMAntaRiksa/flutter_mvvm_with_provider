@@ -1,5 +1,6 @@
 class Api {
   /// Base API Endpoint
+  static const _baseServer = "";
 
   /// * -------------------
   ///  * Caffe Endpoint
@@ -10,5 +11,5 @@ class Api {
   String getCaffes = "$_baseServer/list";
   String getCaffe = "$_baseServer/detail/:id";
   String searchCaffe = "$_baseServer/search";
-  // String createReview = "$_baseServer/review";
+  String createReview = "$_baseServer/review";
 }

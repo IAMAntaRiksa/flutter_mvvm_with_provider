@@ -1,7 +1,7 @@
 import 'package:flutter_caffe_ku/core/models/api/api_result_model.dart';
 import 'package:flutter_caffe_ku/core/models/category/category_model.dart';
 import 'package:flutter_caffe_ku/core/models/menu/menu_model.dart';
-import 'package:flutter_caffe_ku/core/models/review/reveiw_model.dart';
+import 'package:flutter_caffe_ku/core/models/review/review_model.dart';
 
 base class CaffeModel extends Serializable {
   final String id;
@@ -11,7 +11,7 @@ base class CaffeModel extends Serializable {
   final String? address;
   final double rating;
   final CaffeImageModel? image;
-  List<CategoryModel>? categories;
+  final List<CategoryModel>? categories;
   final MenuModel? menus;
   List<ReviewModel>? reviews;
   bool isFavorite;

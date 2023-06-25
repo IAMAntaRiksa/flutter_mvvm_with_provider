@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_caffe_ku/core/data/api.dart';
 import 'package:flutter_caffe_ku/core/data/base_api_impl.dart';
 import 'package:flutter_caffe_ku/core/models/api/api_reponse.dart';
+import 'package:flutter_caffe_ku/core/utils/navigation/navigation_util.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/connection/connection_provider.dart';
 import 'package:flutter_caffe_ku/injector.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -32,6 +36,15 @@ class BaseAPI implements BaseAPIImpl {
 
       return _parseResponse(result);
     } on DioException catch (e) {
+      if (e.error is SocketException) {
+        ConnectionProvider.instance(navigate.navigatorKey.currentContext!)
+            .setConnection(false);
+      } else {
+        if (Platform.environment.containsKey('FLUTTER_TEST') == true) {
+          ConnectionProvider.instance(navigate.navigatorKey.currentContext!)
+              .setConnection(true);
+        }
+      }
       return APIResponse.failure(e.response?.statusCode ?? 500);
     }
   }
@@ -44,8 +57,19 @@ class BaseAPI implements BaseAPIImpl {
 
   @override
   Future<APIResponse> post(String url,
-      {Map<String, dynamic>? param, data, bool? useToken}) {
-    throw UnimplementedError();
+      {Map<String, dynamic>? param, data, bool? useToken}) async {
+    try {
+      final result = await _dio?.post(
+        url,
+        options: await getHeaders(useToken: useToken),
+        data: data,
+        queryParameters: param,
+      );
+
+      return _parseResponse(result);
+    } on DioException catch (e) {
+      return APIResponse.failure(e.response?.statusCode ?? 402);
+    }
   }
 
   @override
