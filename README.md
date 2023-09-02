@@ -1,16 +1,5 @@
-# flutter_caffe_ku
+# flutter with provider 
+# Restaurant App
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/IAMAntaRiksa/flutter_bloc_ecommerce/assets/32923555/1946e714-ac8f-44c1-bb2d-47294ce6b046" alt="mvvm_flutter_with_provider"> 
+<img src="https://github.com/IAMAntaRiksa/flutter_bloc_ecommerce/assets/32923555/5b04bfac-341f-42a9-8b87-e9d559d4d159" alt="mvvm_flutter_with_provider"> 
