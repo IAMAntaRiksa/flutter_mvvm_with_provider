@@ -64,45 +64,42 @@ class SettingBody extends StatelessWidget {
         horizontal: setWidth(35),
         vertical: setHeight(20),
       ),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset(iconPath,
-                width: setWidth(55),
-                height: setHeight(55),
-                color: isColor(context)),
-            SizedBox(
-              width: setWidth(30),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: styleTitle.copyWith(
-                      fontSize: setFontSize(45),
-                      color: isDarkTheme(context) ? Colors.white : blackColor,
-                    ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SvgPicture.asset(iconPath,
+              width: setWidth(55),
+              height: setHeight(55),
+              color: isColor(context)),
+          SizedBox(
+            width: setWidth(30),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: styleTitle.copyWith(
+                    fontSize: setFontSize(45),
+                    color: isDarkTheme(context) ? Colors.white : blackColor,
                   ),
-                  Text(
-                    description,
-                    style: styleSubtitle.copyWith(
-                      fontSize: setFontSize(35),
-                      color:
-                          isDarkTheme(context) ? Colors.white : grayDarkColor,
-                    ),
-                  )
-                ],
-              ),
+                ),
+                Text(
+                  description,
+                  style: styleSubtitle.copyWith(
+                    fontSize: setFontSize(35),
+                    color: isDarkTheme(context) ? Colors.white : grayDarkColor,
+                  ),
+                )
+              ],
             ),
-            CupertinoSwitch(
-              value: selected,
-              onChanged: (value) => onChange(value),
-            )
-          ],
-        ),
+          ),
+          CupertinoSwitch(
+            value: selected,
+            onChanged: (value) => onChange(value),
+          )
+        ],
       ),
     );
   }

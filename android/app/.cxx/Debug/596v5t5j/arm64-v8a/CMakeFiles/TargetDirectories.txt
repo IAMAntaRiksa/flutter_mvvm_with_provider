@@ -1,0 +1,2 @@
+/home/iamantariksa/Documents/Portfolio/Flutter/flutter_caffe_ku/android/app/.cxx/Debug/596v5t5j/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/iamantariksa/Documents/Portfolio/Flutter/flutter_caffe_ku/android/app/.cxx/Debug/596v5t5j/arm64-v8a/CMakeFiles/rebuild_cache.dir

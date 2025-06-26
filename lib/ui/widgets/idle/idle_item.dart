@@ -51,7 +51,7 @@ class IdleNoItemCenter extends StatelessWidget {
                     title ?? " ",
                     textAlign: TextAlign.center,
                     style: styleSubtitle.copyWith(
-                      color: color ?? blackColor,
+                      color: isColor(context),
                       fontSize: setFontSize(36),
                     ),
                   ),
@@ -64,7 +64,7 @@ class IdleNoItemCenter extends StatelessWidget {
                     title ?? " ",
                     textAlign: TextAlign.center,
                     style: styleSubtitle.copyWith(
-                      color: color ?? blackColor,
+                      color: isColor(context),
                       fontSize: setFontSize(40),
                     ),
                   ),
@@ -81,7 +81,7 @@ class IdleNoItemCenter extends StatelessWidget {
                   title ?? " ",
                   textAlign: TextAlign.center,
                   style: styleSubtitle.copyWith(
-                    color: color ?? blackColor,
+                    color: isColor(context),
                     fontSize: setFontSize(40),
                   ),
                 ),

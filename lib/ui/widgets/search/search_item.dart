@@ -25,7 +25,7 @@ class SearchItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 50,
       decoration: BoxDecoration(
         color: color,
         border: Border.all(

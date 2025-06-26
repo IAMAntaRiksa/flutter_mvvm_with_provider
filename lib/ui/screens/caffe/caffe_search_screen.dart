@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/utils/navigation/navigation_util.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/caffe/caffe_provider.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/favorite/favorite_provider.dart';
 import 'package:flutter_caffe_ku/gen/assets.gen.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
+import 'package:flutter_caffe_ku/ui/route/route_list.dart';
 import 'package:flutter_caffe_ku/ui/widgets/caffe/caffe_item.dart';
 import 'package:flutter_caffe_ku/ui/widgets/search/search_item.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -65,11 +67,13 @@ class RestaurantSearchBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CaffeProvider>(
-      builder: (context, caffeProv, _) {
+    return Consumer2<CaffeProvider, FavoriteProvider>(
+      builder: (context, caffeProv, favoriteProv, _) {
         if (caffeProv.searchCaffes == null && !caffeProv.onSearch) {
-          return SvgPicture.asset(
-            Assets.images.illustrationQuestion.path,
+          return Center(
+            child: SvgPicture.asset(
+              Assets.images.illustrationQuestion.path,
+            ),
           );
         }
 
@@ -80,8 +84,10 @@ class RestaurantSearchBody extends StatelessWidget {
         }
 
         if (caffeProv.searchCaffes!.isEmpty) {
-          return SvgPicture.asset(
-            Assets.images.illustrationNotfound.path,
+          return Center(
+            child: SvgPicture.asset(
+              Assets.images.illustrationNotfound.path,
+            ),
           );
         }
 
@@ -101,7 +107,14 @@ class RestaurantSearchBody extends StatelessWidget {
                     : const SizedBox(),
                 CaffeItem(
                   caffe: caffe,
-                  onClick: () => {},
+                  onClick: () => navigate.pushTo(
+                    routeCaffeDetail,
+                    data: caffe,
+                  ),
+                  onClickFavorite: () {
+                    favoriteProv.toogleFavorite(caffe.id);
+                  },
+                  isFavorite: favoriteProv.isFavorite(caffe.id),
                 ),
               ],
             );

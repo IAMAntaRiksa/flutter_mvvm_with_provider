@@ -17,14 +17,52 @@ class CaffeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 70,
-        flexibleSpace: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: setWidth(55),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          elevation: 0,
+          flexibleSpace: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: setHeight(45),
+              horizontal: setWidth(30),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  "_IAMAntaRiksa",
+                  style: styleSubtitle.copyWith(
+                    fontSize: setFontSize(50),
+                    color: isColor(context),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.symmetric(
+                            vertical: setHeight(25), horizontal: setWidth(10)),
+                        child: Container(
+                          height: setHeight(110),
+                          width: setWidth(120),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: primaryCustomSwatch,
+                          ),
+                          child: const Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
-          child: CustomeAppBar(context: context),
         ),
       ),
       body: ChangeNotifierProvider(
@@ -199,8 +237,9 @@ class _CitiesListWidget extends StatelessWidget {
             }
 
             if (caffeProv.cities!.isEmpty) {
-              return const Column(
-                children: [Text("Tidak ad data")],
+              return const IdleNoItemCenter(
+                title: "City not found",
+                useDeviceHeight: false,
               );
             }
             return SingleChildScrollView(
@@ -230,57 +269,6 @@ class _CitiesListWidget extends StatelessWidget {
           },
         )
       ],
-    );
-  }
-}
-
-class CustomeAppBar extends AppBar {
-  CustomeAppBar({super.key, required BuildContext context})
-      : super(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          flexibleSpace: _buildCommerce(context),
-        );
-  static Widget _buildCommerce(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: setWidth(30)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'CaffeKu...',
-                style: styleTitle.copyWith(
-                  fontSize: setFontSize(50),
-                  color: isColor(context),
-                ),
-              ),
-              Text(
-                "_IAMAntaRiksa",
-                style: styleSubtitle.copyWith(
-                  fontSize: setFontSize(50),
-                  color: isColor(context),
-                ),
-              )
-            ],
-          ),
-          Container(
-            height: setHeight(110),
-            width: setWidth(120),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: primaryCustomSwatch,
-            ),
-            child: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-          )
-        ],
-      ),
     );
   }
 }

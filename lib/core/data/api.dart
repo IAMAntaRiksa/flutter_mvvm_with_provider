@@ -1,6 +1,6 @@
 class Api {
   /// Base API Endpoint
-  static const _baseServer = "";
+  static const _baseServer = "https://restaurant-api.dicoding.dev";
 
   /// * -------------------
   ///  * Caffe Endpoint
