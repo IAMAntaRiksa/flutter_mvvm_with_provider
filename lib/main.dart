@@ -25,9 +25,7 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
 
   /// Runing app
-  runApp(MyApp(
-    providers: providers,
-  ));
+  runApp(MyApp(providers: providers));
 }
 
 var caffescreen = const DashboardScreen();
@@ -73,7 +71,10 @@ class MyApp extends StatelessWidget {
 
 class MyBehavior extends ScrollBehavior {
   Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+    BuildContext context,
+    Widget child,
+    AxisDirection axisDirection,
+  ) {
     return child;
   }
 }
